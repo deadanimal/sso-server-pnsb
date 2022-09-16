@@ -10,26 +10,34 @@ use Laravel\Passport\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-   
-    protected $table = 'wp_users';
-    protected $guarded = ['id'];
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+    ];
 
- 
-    public function setNameAttribute($value) {
-        $this->attributes['user_login'] = $value;
-        return $this;   
-    }
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
-    public function setPasswordAttribute($value) {
-        $this->attributes['user_pass'] = $value;
-        return $this;   
-    }
-
-    public function setEmailAttribute($value) {
-        $this->attributes['user_email'] = $value;
-        return $this;   
-    }
-
-
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
 
 }
